@@ -1,0 +1,16 @@
+[project]
+name = "synthesis_celo_bestagent"
+version = "0.1.0"
+description = "A Celo-focused operator loop that routes stablecoin-native payments and grants after identity and policy checks, ready for live cUSD execution."
+readme = "README.md"
+requires-python = ">=3.13"
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ty.terminal]
+error-on-warning = true
+
+[tool.ty.environment]
+python-version = "3.13"
