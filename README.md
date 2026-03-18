@@ -1,15 +1,25 @@
 # Celo Commons Payroll
 
-- **Repo:** `Synthesis-Celo-BestAgent`
+- **Repo:** [Synthesis-Celo-BestAgent](https://github.com/CrystallineButterfly/Synthesis-Celo-BestAgent)
 - **Primary track:** Celo Best Agent on Celo
 - **Category:** payments
+- **Primary contract:** `CeloPaymentController`
+- **Primary module:** `celo_operator`
 - **Submission status:** implementation ready, waiting for credentials and TxIDs.
+
+## What this repo does
 
 A Celo-focused operator loop that routes stablecoin-native payments and grants after identity and policy checks, ready for live cUSD execution.
 
-## Selected concept
+## Why this build matters
 
 A Celo-focused operator loop routes stablecoin-native payments and grants after identity and policy checks. The guard contract stores recipient approvals, per-cycle caps, and note hashes so live cUSD payments can be attached once real wallets and RPC credentials are provided.
+
+## Submission fit
+
+- **Primary track:** Celo Best Agent on Celo
+- **Overlap targets:** PayWithLocus, Octant, ERC-8004 Receipts, ENS, Lido stETH Treasury, Slice
+- **Partners covered:** Celo, PayWithLocus, Octant, ERC-8004 Receipts, ENS, Lido, Slice
 
 ## Idea shortlist
 
@@ -17,11 +27,7 @@ A Celo-focused operator loop routes stablecoin-native payments and grants after 
 2. Public-Goods Micro-Funder
 3. Gasless Yield Trader
 
-## Partners covered
-
-Celo, PayWithLocus, Octant, ERC-8004 Receipts, ENS, Lido, Slice
-
-## Architecture
+## System graph
 
 ```mermaid
 flowchart TD
@@ -39,14 +45,36 @@ flowchart TD
     Contract --> lido[Lido]
 ```
 
-## Repository layout
+## Repository contents
 
-- `src/`: shared policy contracts plus the repo-specific wrapper contract.
-- `script/`: Foundry deployment entrypoint.
-- `agents/`: Python runtime, partner adapters, and project metadata.
-- `scripts/`: CLI utilities for running the loop and rendering submissions.
-- `docs/`: architecture, credentials, demo script, and security notes.
-- `submissions/`: generated `synthesis.md` snippet for this repo.
+| Path | What it contains |
+| --- | --- |
+| `src/` | Shared policy contracts plus the repo-specific wrapper contract. |
+| `script/Deploy.s.sol` | Foundry deployment entrypoint for the policy contract. |
+| `agents/` | Python runtime, project spec, env handling, and partner adapters. |
+| `scripts/` | Terminal entrypoints for run, demo planning, and submission rendering. |
+| `docs/` | Architecture, credentials, security notes, and demo steps. |
+| `submissions/` | Generated `synthesis.md` snippet for this repo. |
+| `test/` | Foundry tests for the Solidity control layer. |
+| `tests/` | Python tests for runtime and project context. |
+| `agent.json` | Submission-facing agent manifest. |
+| `agent_log.json` | Local execution log and status trail. |
+
+## Autonomy loop
+
+1. Discover signals relevant to the repo track and its overlap targets.
+2. Build a bounded plan with per-action and compute caps.
+3. Persist a dry-run artifact before any live execution.
+4. Enforce onchain policy through the guarded contract wrapper.
+5. Verify outputs, update receipts, and render submission material.
+
+## Security controls
+
+- Admin-managed allowlists for targets and selectors.
+- Per-action caps, daily caps, cooldown windows, and a principal floor.
+- Reporter-only receipt anchoring and proof attachment.
+- Env-only secrets; no committed private keys or partner tokens.
+- Pause switch plus dry-run-first execution flow.
 
 ## Action catalog
 
@@ -59,6 +87,18 @@ flowchart TD
 | `ens_ens_publish` | ENS | Use ENS for a bounded action in this repo. | $5 | low |
 | `lido_yield_route` | Lido | Use Lido for a bounded action in this repo. | $200 | medium |
 | `slice_checkout_hook` | Slice | Use Slice for a bounded action in this repo. | $35 | medium |
+
+## Local terminal flow (Anvil + Sepolia)
+
+```bash
+export SEPOLIA_RPC_URL=https://sepolia.infura.io/v3/YOUR_KEY
+anvil --fork-url "$SEPOLIA_RPC_URL" --chain-id 11155111
+cp .env.example .env
+# keep private keys only in .env; TODO.md stays local-only too
+forge script script/Deploy.s.sol --rpc-url "$RPC_URL" --broadcast
+python3 scripts/run_agent.py
+python3 scripts/render_submission.py
+```
 
 ## Commands
 
