@@ -1,6 +1,6 @@
 # Celo Commons Payroll
 
-- **Repo:** TODO_GITHUB_URL/Synthesis-Celo-BestAgent
+- **Repo:** https://github.com/CrystallineButterfly/Synthesis-Celo-BestAgent
 - **Primary track:** Celo Best Agent on Celo
 - **Overlap targets:** PayWithLocus, Octant, ERC-8004 Receipts, ENS, Lido stETH Treasury, Slice
 - **Primary contract:** CeloPaymentController
