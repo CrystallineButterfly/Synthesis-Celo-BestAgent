@@ -43,6 +43,14 @@ when live network credentials are absent. Network-only partners still report mis
 `cast send` output is now parsed for `transactionHash` explicitly before falling back to the
 raw stdout payload.
 
+## Track-specific trust boundaries
+
+- primary wrapper contract: `CeloPaymentController`
+- live-only partners: PayWithLocus, Octant, Slice
+- offline-prepared partners: Celo (prepared_contract_call), ERC-8004 Receipts (prepared_contract_call), ENS (prepared_contract_call), Lido (prepared_contract_call)
+- highest-sensitivity actions: none
+- latest verification artifact: `artifacts/verification/0x27fa7d21d67e56b7d121463338d4b5fb6c2a9c63e73cd61fa1854a9885a16116.json`
+
 ## Current posture
 
 ### Good
